@@ -7,18 +7,25 @@ import {
   HeaderGlobalBar,
   HeaderName,
 } from "carbon-components-react";
-import { Login } from "../pages/login/Login";
+import Login from "../pages/login/Login";
 import { Register } from "../pages/register/Register";
+import Logout from "../pages/login/Logout";
 
-export const AppBar = (props) => {
+export const AppBar = ({ isLogin }) => {
   return (
     <Header aria-label="IBM Platform Name">
       <HeaderName href="#" prefix="IBM">
         [Platform]
       </HeaderName>
       <HeaderGlobalBar>
-        <Login />
-        <Register />
+        {isLogin ? (
+          <Logout />
+        ) : (
+          <>
+            <Login />
+            <Register />
+          </>
+        )}
         <HeaderGlobalAction aria-label="Notifications">
           <Notification20 />
         </HeaderGlobalAction>

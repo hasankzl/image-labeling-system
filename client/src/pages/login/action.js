@@ -8,10 +8,11 @@ export const loginAction = (data) => async (dispatch) => {
     .post(LOGIN_URL, data)
     .then((res) => {
       if (res.status === 200) {
-        localStorage.setItem("token", res.data.jwttoken);
-        localStorage.setItem("email", res.data.email);
+        const { token } = res.headers;
+        localStorage.setItem("token", token);
+        //  localStorage.setItem("email", res.data.email);
         // you need to update here if you want to add new roles
-        localStorage.setItem("role", res.data.role);
+        //  localStorage.setItem("role", res.data.role);
         dispatch({
           type: LOGIN_ACTION,
           payload: {
@@ -22,7 +23,7 @@ export const loginAction = (data) => async (dispatch) => {
         notification.success({
           message: i18n.t("login.loginSuccessful"),
         });
-        return 1;
+        return res.status;
       } else if (res.status === 403) {
         notification.warning({
           message: i18n.t("login.loginDenied"),
