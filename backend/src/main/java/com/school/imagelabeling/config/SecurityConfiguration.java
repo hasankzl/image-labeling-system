@@ -48,7 +48,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
-
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration corsConfiguration =new CorsConfiguration();
+        source.registerCorsConfiguration("/**",corsConfiguration.applyPermitDefaultValues());
+        return source;
+    }
 
 
     @Override
