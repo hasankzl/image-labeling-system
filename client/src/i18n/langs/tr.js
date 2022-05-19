@@ -1,4 +1,4 @@
-const translate = {
+export default {
   translation: {
     general: {
       login: "Giriş",
@@ -29,6 +29,9 @@ const translate = {
       deleteRecord: "kayıt sil",
       updateRecord: "kayıt güncelle",
       serviceNotActive: "Ulaşmaya çalıştığınız servis aktif değil !",
+    },
+    project: {
+      name: "Projelerim",
     },
   },
 };

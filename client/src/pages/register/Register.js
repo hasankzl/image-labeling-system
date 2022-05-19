@@ -9,6 +9,8 @@ import {
 } from "carbon-components-react";
 import { saveUser } from "./action";
 import Notification from "../../components/Notification";
+import { RequestQuote20 } from "@carbon/icons-react";
+
 const emptyUser = {
   username: "",
   name: "",
@@ -42,13 +44,14 @@ export const Register = (props) => {
         aria-label="Search"
         onClick={() => setModalState(!modalState)}
       >
-        Register
+        <RequestQuote20 />
       </HeaderGlobalAction>
       <Modal
         passiveModal
         open={modalState}
         onRequestClose={() => setModalState(!modalState)}
         modalHeading="Kayit"
+        size="xs"
       >
         <Form onSubmit={handleSubmit}>
           <TextInput

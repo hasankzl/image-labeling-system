@@ -10,8 +10,14 @@ import {
 import Login from "../pages/login/Login";
 import { Register } from "../pages/register/Register";
 import Logout from "../pages/login/Logout";
-
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+const headerStyle = {
+  width: 100,
+  color: "white",
+};
 export const AppBar = ({ isLogin }) => {
+  const { t } = useTranslation();
   return (
     <Header aria-label="IBM Platform Name">
       <HeaderName href="#" prefix="IBM">
@@ -19,7 +25,17 @@ export const AppBar = ({ isLogin }) => {
       </HeaderName>
       <HeaderGlobalBar>
         {isLogin ? (
-          <Logout />
+          <>
+            <Link to={"/projects"}>
+              <HeaderGlobalAction
+                aria-label="Notifications"
+                style={headerStyle}
+              >
+                {t("project.name")}
+              </HeaderGlobalAction>
+            </Link>
+            <Logout />
+          </>
         ) : (
           <>
             <Login />
@@ -29,7 +45,7 @@ export const AppBar = ({ isLogin }) => {
         <HeaderGlobalAction aria-label="Notifications">
           <Notification20 />
         </HeaderGlobalAction>
-        <HeaderGlobalAction aria-label="App Switcher" tooltipAlignment="end">
+        <HeaderGlobalAction aria-label="App Switcher" tooltipalignment="end">
           <AppSwitcher20 />
         </HeaderGlobalAction>
       </HeaderGlobalBar>

@@ -7,3 +7,7 @@ export const ADMIN = "[admin]";
 export const LANG_TR = "tr";
 export const LANG_EN = "en";
 export const CURRENT_LANG = "CURRENT_LANG";
+
+export const FIND_ALL_FRIENDS_URL = "user/findAllSimple";
+export const FIND_ALL_PROJECTS_URL = "project/findAll";
+export const SAVE_PROJECT_URL = "project/save";

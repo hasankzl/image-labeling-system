@@ -1,8 +1,9 @@
 package com.school.imagelabeling.Projection;
 
-public interface ProjectUserProjection {
+public interface SimpleUserProjection {
 
     Long getId();
     String getName();
     String getUsername();
+    String getSurname();
 }

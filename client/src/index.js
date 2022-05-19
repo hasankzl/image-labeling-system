@@ -5,7 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import store from "./redux/store";
 import { Provider } from "react-redux";
-import i18n from "./i18n";
+import "./i18n";
 import "./utils/axiosConfig";
 import "carbon-components/css/carbon-components.css";
 import "react-notifications/lib/notifications.css";

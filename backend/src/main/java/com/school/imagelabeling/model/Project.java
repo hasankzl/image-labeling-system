@@ -3,6 +3,7 @@ package com.school.imagelabeling.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -15,7 +16,8 @@ public class Project {
     private Long id;
 
     @Column
-    private String email;
+    private String name;
+
 
     @ManyToOne
     @JoinColumn(name="admin_id", nullable=false)
@@ -28,4 +30,6 @@ public class Project {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<ApplicationUser> userList;
 
+    @Column
+    private Date createdDate = new Date();
 }

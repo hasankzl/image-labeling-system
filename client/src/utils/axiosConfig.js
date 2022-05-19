@@ -39,6 +39,12 @@ axios.interceptors.response.use(
           });
           store.dispatch(logoutAction());
           break;
+        case 403:
+          notification.warning({
+            message: "please login",
+          });
+          store.dispatch(logoutAction());
+          break;
         case 503:
           notification.warning({
             message: t("general.serviceNotActive"),

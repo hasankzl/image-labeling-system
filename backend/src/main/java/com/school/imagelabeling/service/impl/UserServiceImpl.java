@@ -1,5 +1,6 @@
 package com.school.imagelabeling.service.impl;
 
+import com.school.imagelabeling.Projection.SimpleUserProjection;
 import com.school.imagelabeling.model.ApplicationUser;
 import com.school.imagelabeling.repository.UserRepository;
 import com.school.imagelabeling.service.UserService;
@@ -8,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -36,5 +38,10 @@ public class UserServiceImpl implements UserService {
         }
 
         return user.get();
+    }
+
+    @Override
+    public List<SimpleUserProjection> findAllSimple() {
+        return userRepository.findAllProjectedBy();
     }
 }
