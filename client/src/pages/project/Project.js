@@ -1,189 +1,141 @@
-import { TableContainer } from "carbon-components-react";
-import { Save20, Download20, TrashCan20 } from "@carbon/icons-react";
+import { Workspace24, Edit24, Delete24 } from "@carbon/icons-react";
 
-import {
-  DataTable,
-  Table,
-  TableHead,
-  TableRow,
-  TableHeader,
-  TableBody,
-  TableCell,
-  TableToolbar,
-  TableToolbarContent,
-  TableToolbarSearch,
-  TableToolbarMenu,
-  TableToolbarAction,
-  Button,
-  TableSelectAll,
-  TableSelectRow,
-  TableBatchActions,
-  TableBatchAction,
-} from "carbon-components-react";
-import PropTypes from "prop-types";
-import React, { useState } from "react";
+import { Button } from "carbon-components-react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import ProjectModal from "./ProjectModal";
+import { getAllProjects, deleteProject } from "./action";
+import ReactFlexyTable from "react-flexy-table";
+import { UnorderedList } from "carbon-components-react";
+import { ListItem } from "carbon-components-react";
 
-const Project = (props) => {
+const options = {
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+  hour: "numeric",
+  minute: "numeric",
+};
+
+const Project = ({
+  getAllProjects: _getAllProjects,
+  projects,
+  deleteProject: _deleteProject,
+}) => {
   const [modal, setModal] = useState(false);
-  const headerData = [
+
+  const handleDelete = (id) => {
+    _deleteProject(id).then((res) => {
+      if (res == 200) {
+        _getAllProjects();
+      }
+    });
+  };
+
+  useEffect(() => {
+    _getAllProjects();
+  }, []);
+  const columns = [
     {
       header: "Id",
       key: "id",
     },
     {
-      header: "Name",
+      header: "Proje adi",
       key: "name",
     },
     {
-      header: "Admin",
-      key: "admin",
+      header: "Yonetici",
+      td: (data) => <span>{`${data.admin.name}  ${data.admin.surname}`}</span>,
     },
     {
       header: "Created Date",
-      key: "createdDate",
+      td: (data) => (
+        <span>
+          {new Date(data.createdDate).toLocaleDateString("TR", options)}
+        </span>
+      ),
+    },
+    {
+      header: "kullanicilar",
+      td: (data) => {
+        return (
+          <UnorderedList nested>
+            {data.userList.map((user) => (
+              <ListItem
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <span> {`${user.name}  ${user.surname} `}</span>{" "}
+              </ListItem>
+            ))}
+          </UnorderedList>
+        );
+      },
+    },
+    {
+      header: "Islemler",
+      td: (data) => {
+        return (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Button hasIconOnly iconDescription="Projede Calis">
+              <Workspace24 />
+            </Button>{" "}
+            <Button hasIconOnly iconDescription="Proje Guncelle">
+              <Edit24 />
+            </Button>
+            <Button
+              hasIconOnly
+              iconDescription="Proje Sil"
+              onClick={() => handleDelete(data.id)}
+            >
+              <Delete24 />
+            </Button>
+          </div>
+        );
+      },
     },
   ];
 
-  const rowData = [
-    {
-      name: "Kevins VM Groups",
-      id: "a",
-      name: "Load Balancer 3",
-      Admin: 3000,
-      createdDate: "HTTP",
-    },
-    {
-      name: "Kevins VM Groups",
-      id: "a",
-      name: "Load Balancer 3",
-      Admin: 3000,
-      createdDate: "HTTP",
-    },
-    {
-      name: "Kevins VM Groups",
-      id: "a",
-      name: "Load Balancer 3",
-      Admin: 3000,
-      createdDate: "HTTP",
-    },
-  ];
   return (
-    <div style={{ margin: 55 }}>
-      <DataTable rows={rowData} headers={headerData}>
-        {({
-          rows,
-          headers,
-          getHeaderProps,
-          getRowProps,
-          getSelectionProps,
-          getBatchActionProps,
-          onInputChange,
-          selectedRows,
-        }) => (
-          <TableContainer title="Projelerim">
-            <TableToolbar>
-              <TableBatchActions {...getBatchActionProps()}>
-                <TableBatchAction
-                  tabIndex={
-                    getBatchActionProps().shouldShowBatchActions ? 0 : -1
-                  }
-                  renderIcon={TrashCan20}
-                  onClick={() => console.log("clicked")}
-                >
-                  Delete
-                </TableBatchAction>
-                <TableBatchAction
-                  tabIndex={
-                    getBatchActionProps().shouldShowBatchActions ? 0 : -1
-                  }
-                  renderIcon={Save20}
-                  onClick={() => console.log("clicked")}
-                >
-                  Save
-                </TableBatchAction>
-                <TableBatchAction
-                  tabIndex={
-                    getBatchActionProps().shouldShowBatchActions ? 0 : -1
-                  }
-                  renderIcon={Download20}
-                  onClick={() => console.log("clicked")}
-                >
-                  Download
-                </TableBatchAction>
-              </TableBatchActions>
-              <TableToolbarContent>
-                <TableToolbarSearch
-                  tabIndex={
-                    getBatchActionProps().shouldShowBatchActions ? -1 : 0
-                  }
-                  onChange={onInputChange}
-                />
-                <TableToolbarMenu
-                  tabIndex={
-                    getBatchActionProps().shouldShowBatchActions ? -1 : 0
-                  }
-                >
-                  <TableToolbarAction
-                    primaryFocus
-                    onClick={() => alert("Alert 1")}
-                  >
-                    Action 1
-                  </TableToolbarAction>
-                  <TableToolbarAction onClick={() => alert("Alert 2")}>
-                    Action 2
-                  </TableToolbarAction>
-                  <TableToolbarAction onClick={() => alert("Alert 3")}>
-                    Action 3
-                  </TableToolbarAction>
-                </TableToolbarMenu>
-                <Button
-                  tabIndex={
-                    getBatchActionProps().shouldShowBatchActions ? -1 : 0
-                  }
-                  onClick={() => setModal(true)}
-                  size="small"
-                  kind="primary"
-                >
-                  Add new
-                </Button>
-              </TableToolbarContent>
-            </TableToolbar>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableSelectAll {...getSelectionProps()} />
-                  {headers.map((header) => (
-                    <TableHeader {...getHeaderProps({ header })}>
-                      {header.header}
-                    </TableHeader>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row) => (
-                  <TableRow {...getRowProps({ row })}>
-                    <TableSelectRow {...getSelectionProps({ row })} />
-                    {row.cells.map((cell) => (
-                      <TableCell key={cell.id}>{cell.value}</TableCell>
-                    ))}
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        )}
-      </DataTable>
-      <ProjectModal isOpen={modal} closeModal={() => setModal(false)} />
+    <div style={{ margin: 75, marginTop: 100 }}>
+      <div style={{ display: "flex", justifyContent: "flex-end", margin: 20 }}>
+        <Button onClick={() => setModal(true)}>Ekle</Button>
+      </div>
+      <div>
+        <ReactFlexyTable
+          data={projects}
+          columns={columns}
+          sortable
+          globalSearch
+          filterable
+        />
+      </div>
+      <ProjectModal
+        isOpen={modal}
+        closeModal={() => setModal(false)}
+        getAll={_getAllProjects}
+      />
     </div>
   );
 };
 
 Project.propTypes = {};
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = ({ projectReducer }) => ({
+  projects: projectReducer.projects,
+});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { getAllProjects, deleteProject };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Project);

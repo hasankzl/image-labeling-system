@@ -19,13 +19,19 @@ const headerStyle = {
 export const AppBar = ({ isLogin }) => {
   const { t } = useTranslation();
   return (
-    <Header aria-label="IBM Platform Name">
-      <HeaderName href="#" prefix="IBM">
-        [Platform]
-      </HeaderName>
+    <Header>
+      <HeaderName href="#">Online Resim Etiketleme</HeaderName>
       <HeaderGlobalBar>
         {isLogin ? (
           <>
+            <Link to={"/imageSets"}>
+              <HeaderGlobalAction
+                aria-label="Notifications"
+                style={headerStyle}
+              >
+                Resim Setlerim
+              </HeaderGlobalAction>
+            </Link>
             <Link to={"/projects"}>
               <HeaderGlobalAction
                 aria-label="Notifications"

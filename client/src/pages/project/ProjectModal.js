@@ -10,20 +10,23 @@ import { Button } from "carbon-components-react";
 import { Modal } from "carbon-components-react";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { getAllFriends, saveProject } from "./action";
-
+import { getAllFriends, saveProject, getMyImageSets } from "./action";
 const emptyProject = {
   name: "",
   admin: {},
   userList: [],
+  imageSet: {},
 };
 
 const ProjectModal = ({
   isOpen,
   closeModal,
   friendsList,
+  imageSets,
   getAllFriends: _getAllFriends,
   saveProject: _saveProject,
+  getMyImageSets: _getMyImageSets,
+  getAll,
 }) => {
   const [project, setProject] = useState(emptyProject);
 
@@ -44,7 +47,19 @@ const ProjectModal = ({
       setProject(oldProject);
     }
   };
+  const handleImageSetSelect = (e) => {
+    if (e.target.value) {
+      const data = JSON.parse(e.target.value);
 
+      // eger daha once eklenmis ise bir sey yapma
+      if (project.userList.some((user) => user.id == data.id)) {
+        return;
+      }
+      const oldProject = { ...project };
+      oldProject.userList.push(data);
+      setProject(oldProject);
+    }
+  };
   const removeFromUserList = (id) => {
     const oldProject = { ...project };
     oldProject.userList = oldProject.userList.filter((user) => user.id != id);
@@ -52,16 +67,21 @@ const ProjectModal = ({
   };
   useEffect(() => {
     _getAllFriends();
+    _getMyImageSets();
   }, []);
-
+  useEffect(() => {
+    setProject(emptyProject);
+  }, [isOpen]);
   const handleSubmit = (e) => {
     e.preventDefault();
     _saveProject(project).then((res) => {
       if (res == 200) {
         closeModal();
+        getAll();
       }
     });
   };
+
   return (
     <Modal
       passiveModal
@@ -82,6 +102,23 @@ const ProjectModal = ({
 
         <Select
           defaultValue="placeholder-item"
+          labelText="Bir resim seti seciniz"
+          id="select-1"
+          invalidText="Bu alan gereklidir"
+          onChange={handleImageSetSelect}
+          style={{ marginBottom: 30 }}
+        >
+          <SelectItem text="bir isim seçin" />
+          {imageSets.map((imageSet, index) => (
+            <SelectItem
+              key={index}
+              text={`${imageSet.name}`}
+              value={JSON.stringify(imageSet)}
+            />
+          ))}
+        </Select>
+        <Select
+          defaultValue="placeholder-item"
           helperText="Eklemek istediğiniz isimin üzerine tıklayınız"
           id="select-1"
           invalidText="Bu alan gereklidir"
@@ -97,6 +134,7 @@ const ProjectModal = ({
             />
           ))}
         </Select>
+
         <UnorderedList style={{ margin: 30 }}>
           <ListItem>Projedeki kullanıcılar</ListItem>
           <UnorderedList nested>
@@ -124,8 +162,9 @@ const ProjectModal = ({
 
 const mapStateToProps = ({ projectReducer }) => ({
   friendsList: projectReducer.friends,
+  imageSets: projectReducer.imageSets,
 });
 
-const mapDispatchToProps = { getAllFriends, saveProject };
+const mapDispatchToProps = { getAllFriends, saveProject, getMyImageSets };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectModal);

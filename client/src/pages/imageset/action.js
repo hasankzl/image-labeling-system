@@ -2,21 +2,23 @@ import axios from "axios";
 import Notification from "../../components/Notification";
 import {
   GET_FRIENDS,
+  GET_IMAGE_SETS,
   GET_PROJECTS,
-  GET_PROJECT_IMAGE_SETS,
 } from "../../redux/actionTypes";
 import {
+  DELETE_IMAGE_SET_URL,
   DELETE_PROJECT_URL,
   FIND_ALL_FRIENDS_URL,
   FIND_ALL_IMAGE_SET_URL,
   FIND_ALL_PROJECTS_URL,
+  SAVE_IMAGE_SET_URL,
   SAVE_PROJECT_URL,
 } from "../../utils/constants";
 
-export const getAllFriends = () => async (dispatch) => {
-  await axios.get(FIND_ALL_FRIENDS_URL).then((res) => {
+export const getAllImageSet = () => async (dispatch) => {
+  await axios.get(FIND_ALL_IMAGE_SET_URL).then((res) => {
     dispatch({
-      type: GET_FRIENDS,
+      type: GET_IMAGE_SETS,
       payload: {
         data: res.data,
       },
@@ -24,8 +26,8 @@ export const getAllFriends = () => async (dispatch) => {
   });
 };
 
-export const saveProject = (project) => async (dispatch) => {
-  const status = await axios.post(SAVE_PROJECT_URL, project).then((res) => {
+export const saveImageSet = (imageSet) => async (dispatch) => {
+  const status = await axios.post(SAVE_IMAGE_SET_URL, imageSet).then((res) => {
     if (res.status === 200) {
       Notification.success({ message: "kayit basarili" });
     }
@@ -35,20 +37,9 @@ export const saveProject = (project) => async (dispatch) => {
   return status;
 };
 
-export const getAllProjects = () => async (dispatch) => {
-  await axios.get(FIND_ALL_PROJECTS_URL).then((res) => {
-    dispatch({
-      type: GET_PROJECTS,
-      payload: {
-        data: res.data,
-      },
-    });
-  });
-};
-
-export const deleteProject = (id) => async (dispatch) => {
+export const deleteImageSet = (id) => async (dispatch) => {
   const status = await axios
-    .delete(DELETE_PROJECT_URL + id)
+    .delete(DELETE_IMAGE_SET_URL + id)
     .then((res) => {
       if (res.status === 200) {
         Notification.success({ message: "Silme islemi basarili" });
@@ -60,15 +51,4 @@ export const deleteProject = (id) => async (dispatch) => {
       return 404;
     });
   return status;
-};
-
-export const getMyImageSets = () => async (dispatch) => {
-  await axios.get(FIND_ALL_IMAGE_SET_URL).then((res) => {
-    dispatch({
-      type: GET_PROJECT_IMAGE_SETS,
-      payload: {
-        data: res.data,
-      },
-    });
-  });
 };

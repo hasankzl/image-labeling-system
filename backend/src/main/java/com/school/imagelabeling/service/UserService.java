@@ -14,4 +14,6 @@ public interface UserService {
     ApplicationUser findById(Long id);
 
     List<SimpleUserProjection> findAllSimple();
+
+    ApplicationUser getLoginUser();
 }

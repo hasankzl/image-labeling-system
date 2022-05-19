@@ -33,6 +33,10 @@ public class ApplicationUser {
     @OneToMany(mappedBy = "admin")
     private List<Project> adminProjectList;
 
+    @OneToMany(mappedBy = "user")
+    private List<ImageSet> imageSetList;
+
+
 //    @OneToMany(mappedBy = "user")
 //    private List<Label> labelList;
 //

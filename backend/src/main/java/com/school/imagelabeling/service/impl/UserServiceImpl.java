@@ -4,7 +4,9 @@ import com.school.imagelabeling.Projection.SimpleUserProjection;
 import com.school.imagelabeling.model.ApplicationUser;
 import com.school.imagelabeling.repository.UserRepository;
 import com.school.imagelabeling.service.UserService;
+import io.jsonwebtoken.impl.DefaultClaims;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -43,5 +45,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<SimpleUserProjection> findAllSimple() {
         return userRepository.findAllProjectedBy();
+    }
+
+    @Override
+    public ApplicationUser getLoginUser() {
+        DefaultClaims claims = (DefaultClaims) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // login olan kullanicinin bilgilerini al
+        SimpleUserProjection currentUser = userRepository.findAllProjectedByUsername(claims.getSubject());
+        ApplicationUser applicationUser = new ApplicationUser();
+        applicationUser.setId(currentUser.getId());
+
+        return applicationUser;
     }
 }

@@ -8,6 +8,7 @@ import com.school.imagelabeling.model.Project;
 import com.school.imagelabeling.repository.ProjectRepository;
 import com.school.imagelabeling.repository.UserRepository;
 import com.school.imagelabeling.service.ProjectService;
+import com.school.imagelabeling.service.UserService;
 import io.jsonwebtoken.impl.DefaultClaims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,22 +21,23 @@ import java.util.List;
 public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Override
     public void save(Project project) {
-        DefaultClaims claims = (DefaultClaims) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        // login olan kullanicinin bilgilerini al
-        SimpleUserProjection currentUser = userRepository.findAllProjectedByUsername(claims.getSubject());
-        ApplicationUser applicationUser = new ApplicationUser();
-        applicationUser.setId(currentUser.getId());
-        project.setAdmin(applicationUser);
+
+
+
+        project.setAdmin(userService.getLoginUser());
         projectRepository.save(project);
     }
 
     @Override
     public List<ProjectProjection> findAll() {
-        return projectRepository.findAllProjectedBy();
+
+        ApplicationUser applicationUser = new ApplicationUser();
+        applicationUser.setId(userService.getLoginUser().getId());
+        return projectRepository.findAllProjectedByAdmin(applicationUser);
     }
 
     @Override

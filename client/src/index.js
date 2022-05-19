@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import store from "./redux/store";
@@ -9,6 +8,9 @@ import "./i18n";
 import "./utils/axiosConfig";
 import "carbon-components/css/carbon-components.css";
 import "react-notifications/lib/notifications.css";
+
+import "./index.css";
+
 ReactDOM.render(
   <Provider store={store}>
     <App />
