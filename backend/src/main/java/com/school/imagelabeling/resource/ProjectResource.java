@@ -2,6 +2,7 @@ package com.school.imagelabeling.resource;
 
 
 import com.school.imagelabeling.Projection.ProjectProjection;
+import com.school.imagelabeling.model.LabelingProject;
 import com.school.imagelabeling.model.Project;
 import com.school.imagelabeling.service.ProjectService;
 import lombok.RequiredArgsConstructor;
@@ -35,4 +36,9 @@ public class ProjectResource {
         projectService.deleteById(id);
     }
 
+    @GetMapping("/findLabelingById/{id}")
+    public LabelingProject findLabelingById(@PathVariable Long id){
+
+        return projectService.getLabelingProject(id);
+    }
 }

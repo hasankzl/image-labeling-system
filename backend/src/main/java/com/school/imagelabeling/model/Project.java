@@ -30,7 +30,7 @@ public class Project {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<ApplicationUser> userList;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "ımageSet_id", referencedColumnName = "id")
     private ImageSet imageSet;
 

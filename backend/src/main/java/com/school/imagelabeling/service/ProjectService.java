@@ -1,6 +1,7 @@
 package com.school.imagelabeling.service;
 
 import com.school.imagelabeling.Projection.ProjectProjection;
+import com.school.imagelabeling.model.LabelingProject;
 import com.school.imagelabeling.model.Project;
 
 import java.util.List;
@@ -14,4 +15,5 @@ public interface ProjectService {
 
     void deleteById(Long id);
 
+    LabelingProject getLabelingProject(Long id);
 }

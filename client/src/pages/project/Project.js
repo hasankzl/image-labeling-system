@@ -8,7 +8,7 @@ import { getAllProjects, deleteProject } from "./action";
 import ReactFlexyTable from "react-flexy-table";
 import { UnorderedList } from "carbon-components-react";
 import { ListItem } from "carbon-components-react";
-
+import { useNavigate } from "react-router-dom";
 const options = {
   weekday: "long",
   year: "numeric",
@@ -24,7 +24,7 @@ const Project = ({
   deleteProject: _deleteProject,
 }) => {
   const [modal, setModal] = useState(false);
-
+  let navigate = useNavigate();
   const handleDelete = (id) => {
     _deleteProject(id).then((res) => {
       if (res == 200) {
@@ -88,7 +88,13 @@ const Project = ({
               justifyContent: "space-between",
             }}
           >
-            <Button hasIconOnly iconDescription="Projede Calis">
+            <Button
+              hasIconOnly
+              iconDescription="Projede Calis"
+              onClick={() =>
+                navigate("../workingProject/" + data.id, { replace: true })
+              }
+            >
               <Workspace24 />
             </Button>{" "}
             <Button hasIconOnly iconDescription="Proje Guncelle">

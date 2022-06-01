@@ -8,4 +8,5 @@ public interface SimpleImageSetProjection {
     String getName();
     SimpleUserProjection getUser();
     Date getCreatedDate();
+    Integer getImageCount();
 }

@@ -6,6 +6,7 @@ import { NotificationContainer } from "react-notifications";
 import Project from "./pages/project/Project";
 import "react-flexy-table/dist/index.css";
 import ImageSet from "./pages/imageset/ImageSet";
+import WorkingProject from "./pages/working-project/WorkingProject";
 function App() {
   return (
     <BrowserRouter>
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/projects" element={<Project />} />
         <Route path="/imageSets" element={<ImageSet />} />
+        <Route path="/workingProject/:id" element={<WorkingProject />} />
       </Routes>
 
       <NotificationContainer />

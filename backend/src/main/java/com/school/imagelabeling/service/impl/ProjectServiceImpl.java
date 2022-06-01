@@ -1,10 +1,10 @@
 package com.school.imagelabeling.service.impl;
 
 
-import com.school.imagelabeling.Projection.ProjectProjection;
-import com.school.imagelabeling.Projection.SimpleUserProjection;
-import com.school.imagelabeling.model.ApplicationUser;
-import com.school.imagelabeling.model.Project;
+import com.school.imagelabeling.Projection.*;
+import com.school.imagelabeling.model.*;
+import com.school.imagelabeling.repository.ImageRepository;
+import com.school.imagelabeling.repository.ImageSetRepository;
 import com.school.imagelabeling.repository.ProjectRepository;
 import com.school.imagelabeling.repository.UserRepository;
 import com.school.imagelabeling.service.ProjectService;
@@ -22,12 +22,27 @@ public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;
     private final UserService userService;
+    private final ImageSetRepository imageSetRepository;
+    private final ImageRepository imageRepository;
 
     @Override
     public void save(Project project) {
 
 
+        ImageSetProjectionWithImage imageSet = imageSetRepository.findProjectedById(project.getImageSet().getId());
 
+        int imageCountByPerson = imageSet.getImageList().size() / project.getUserList().size();
+        int counter = 0;
+        for (ApplicationUser applicationUser :
+                project.getUserList()) {
+
+            for (int i = imageCountByPerson * counter; i < imageCountByPerson + (imageCountByPerson * counter); i++) {
+                Image image = imageRepository.findById(imageSet.getImageList().get(i).getId()).get();
+                image.setUser(applicationUser);
+                imageRepository.save(image);
+            }
+            counter++;
+        }
         project.setAdmin(userService.getLoginUser());
         projectRepository.save(project);
     }
@@ -44,5 +59,17 @@ public class ProjectServiceImpl implements ProjectService {
     public void deleteById(Long id) {
 
         projectRepository.deleteById(id);
+    }
+
+    @Override
+    public LabelingProject getLabelingProject(Long id) {
+        LabelingProject labelingProject = new LabelingProject();
+        ProjectLabelingProjection projectLabelingProjection = projectRepository.findProjectedById(id);
+        labelingProject.setProject(projectLabelingProjection);
+        ImageSet imageSet = new ImageSet();
+        imageSet.setId(projectLabelingProjection.getImageSet().getId());
+        List<ImageLabelingProjection> imageList = imageRepository.findAllByImageSetAndUser(imageSet,userService.getLoginUser());
+        labelingProject.setImageList(imageList);
+        return labelingProject;
     }
 }

@@ -40,7 +40,7 @@ const ImageSetModal = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    _saveImageSet(imageSet).then((res) => {
+    _saveImageSet(imageSet, images).then((res) => {
       if (res == 200) {
         closeModal();
         getAll();

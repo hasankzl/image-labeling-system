@@ -51,12 +51,8 @@ const ProjectModal = ({
     if (e.target.value) {
       const data = JSON.parse(e.target.value);
 
-      // eger daha once eklenmis ise bir sey yapma
-      if (project.userList.some((user) => user.id == data.id)) {
-        return;
-      }
-      const oldProject = { ...project };
-      oldProject.userList.push(data);
+      const oldProject = { ...project, imageSet: { id: data.id } };
+
       setProject(oldProject);
     }
   };

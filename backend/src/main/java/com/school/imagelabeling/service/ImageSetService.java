@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ImageSetService {
 
-    void save(ImageSet imageSet);
+    ImageSet save(ImageSet imageSet);
 
     List<SimpleImageSetProjection> findAll();
 

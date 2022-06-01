@@ -26,8 +26,19 @@ export const getAllImageSet = () => async (dispatch) => {
   });
 };
 
-export const saveImageSet = (imageSet) => async (dispatch) => {
-  const status = await axios.post(SAVE_IMAGE_SET_URL, imageSet).then((res) => {
+export const saveImageSet = (imageSet, images) => async (dispatch) => {
+  const formData = new FormData();
+
+  for (let i = 0; i < images.length; i++) {
+    formData.append(`files`, images[i]);
+  }
+  formData.append("imageSet", imageSet.name);
+  const status = await axios({
+    method: "post",
+    url: SAVE_IMAGE_SET_URL,
+    data: formData,
+    headers: { "Content-Type": "multipart/form-data" },
+  }).then((res) => {
     if (res.status === 200) {
       Notification.success({ message: "kayit basarili" });
     }

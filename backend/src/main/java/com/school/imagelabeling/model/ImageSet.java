@@ -26,10 +26,16 @@ public class ImageSet {
     @OneToMany(mappedBy="imageSet")
     private List<Image> imageList;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "project_id", referencedColumnName = "id")
     private Project project;
 
     @Column
     private Date createdDate = new Date();
+
+    @Column
+    private Boolean isUsed = false;
+
+    @Column(nullable = true)
+    private Integer imageCount;
 }

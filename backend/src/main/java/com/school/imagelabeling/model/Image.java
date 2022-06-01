@@ -25,4 +25,9 @@ public class Image {
 
     @Column
     private String url;
+
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable=true)
+    private ApplicationUser user;
+
 }
