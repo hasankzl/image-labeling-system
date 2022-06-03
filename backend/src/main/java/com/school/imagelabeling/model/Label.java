@@ -4,6 +4,7 @@ package com.school.imagelabeling.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Data
@@ -36,4 +37,6 @@ public class Label {
     private Image image;
 
 
+    @Column
+    private Date createdDate = new Date();
 }

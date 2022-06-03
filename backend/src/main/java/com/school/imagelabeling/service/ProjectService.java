@@ -1,6 +1,7 @@
 package com.school.imagelabeling.service;
 
 import com.school.imagelabeling.Projection.ProjectProjection;
+import com.school.imagelabeling.model.ExportLabelJson;
 import com.school.imagelabeling.model.LabelingProject;
 import com.school.imagelabeling.model.Project;
 
@@ -16,4 +17,6 @@ public interface ProjectService {
     void deleteById(Long id);
 
     LabelingProject getLabelingProject(Long id);
+
+    List<ExportLabelJson> exportLabelAsJson(Long id);
 }

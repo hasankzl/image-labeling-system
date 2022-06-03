@@ -16,4 +16,5 @@ export const FIND_ALL_IMAGE_SET_URL = "imageSet/findAll";
 export const SAVE_IMAGE_SET_URL = "imageSet/save";
 export const DELETE_IMAGE_SET_URL = "imageSet/delete/";
 export const FIND_PROJECT_URL = "project/findLabelingById/";
+export const DOWNLOAD_JSON_URL = "project/exportJson/";
 export const SAVE_LABELS_URL = "label/saveAll";

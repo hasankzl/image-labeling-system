@@ -11,6 +11,7 @@ import {
   FIND_ALL_IMAGE_SET_URL,
   FIND_ALL_PROJECTS_URL,
   SAVE_PROJECT_URL,
+  DOWNLOAD_JSON_URL,
 } from "../../utils/constants";
 
 export const getAllFriends = () => async (dispatch) => {
@@ -70,5 +71,24 @@ export const getMyImageSets = () => async (dispatch) => {
         data: res.data,
       },
     });
+  });
+};
+
+export const downloadJson = async (id) => {
+  await axios.get(DOWNLOAD_JSON_URL + id).then((res) => {
+    var element = document.createElement("a");
+    element.setAttribute(
+      "href",
+      "data:text/plain;charset=utf-8," +
+        encodeURIComponent(JSON.stringify(res.data))
+    );
+    element.setAttribute("download", "json_veri.json");
+
+    element.style.display = "none";
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
   });
 };

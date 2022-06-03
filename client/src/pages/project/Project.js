@@ -4,11 +4,12 @@ import { Button } from "carbon-components-react";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import ProjectModal from "./ProjectModal";
-import { getAllProjects, deleteProject } from "./action";
+import { getAllProjects, deleteProject, downloadJson } from "./action";
 import ReactFlexyTable from "react-flexy-table";
 import { UnorderedList } from "carbon-components-react";
 import { ListItem } from "carbon-components-react";
 import { useNavigate } from "react-router-dom";
+import { Json24 } from "@carbon/icons-react";
 const options = {
   weekday: "long",
   year: "numeric",
@@ -117,8 +118,12 @@ const Project = ({
             >
               <Workspace24 />
             </Button>{" "}
-            <Button hasIconOnly iconDescription="Proje Guncelle">
-              <Edit24 />
+            <Button
+              hasIconOnly
+              onClick={() => downloadJson(data.id)}
+              iconDescription="Json Cikti"
+            >
+              <Json24 />
             </Button>
             <Button
               hasIconOnly

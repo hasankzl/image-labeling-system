@@ -2,6 +2,7 @@ package com.school.imagelabeling.resource;
 
 
 import com.school.imagelabeling.Projection.ProjectProjection;
+import com.school.imagelabeling.model.ExportLabelJson;
 import com.school.imagelabeling.model.LabelingProject;
 import com.school.imagelabeling.model.Project;
 import com.school.imagelabeling.service.ProjectService;
@@ -38,7 +39,12 @@ public class ProjectResource {
 
     @GetMapping("/findLabelingById/{id}")
     public LabelingProject findLabelingById(@PathVariable Long id){
-
         return projectService.getLabelingProject(id);
+    }
+
+
+    @GetMapping("/exportJson/{id}")
+    public List<ExportLabelJson> exportJson(@PathVariable Long id){
+        return projectService.exportLabelAsJson(id);
     }
 }
