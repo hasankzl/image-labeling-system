@@ -10,12 +10,16 @@ import React, { useEffect, useState } from "react";
 import { ReactPictureAnnotation } from "react-picture-annotation";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
-import { FIND_PROJECT_URL, IMAGE_BASE_URL } from "../../utils/constants";
+import {
+  FIND_PROJECT_URL,
+  IMAGE_BASE_URL,
+  SAVE_LABELS_URL,
+} from "../../utils/constants";
 import { Button } from "carbon-components-react";
 import Notification from "../../components/Notification";
 const WorkingProject = (props) => {
   let { id } = useParams();
-  const [Labels, setLabels] = useState([]);
+  const [labels, setLabels] = useState([]);
   const [project, setProject] = useState({});
   const [image, setImage] = useState({});
   const [imageIndex, setImageIndex] = useState(0);
@@ -37,18 +41,43 @@ const WorkingProject = (props) => {
     await axios.get(FIND_PROJECT_URL + id).then((res) => {
       setProject(res.data);
       setImage(res.data.imageList[imageIndex]);
-      debugger;
     });
   }, [id]);
 
   const nextImage = () => {
-    debugger;
     const newIndex = imageIndex + 1;
     if (newIndex < project.imageList.length) {
       setImage(project.imageList[imageIndex + 1]);
       setImageIndex(imageIndex + 1);
+      setLabels([]);
     } else {
       Notification.warning({ message: "Baska resim bulunmamaktadir" });
+    }
+  };
+
+  const saveLabels = async () => {
+    if (labels.length > 0) {
+      const formatedLabels = [];
+      labels.forEach((label) => {
+        formatedLabels.push({
+          comment: label.comment,
+          x: label.mark.x,
+          y: label.mark.y,
+          height: label.mark.height,
+          width: label.mark.width,
+          image: {
+            id: image.id,
+          },
+        });
+      });
+      await axios.post(SAVE_LABELS_URL, formatedLabels).then((res) => {
+        if (res.status === 200) {
+          Notification.success({ message: "Etiketler basariyla kaydedildi" });
+          nextImage();
+        }
+      });
+    } else {
+      Notification.warning({ message: "Lutfen bir etiket ekleyiniz" });
     }
   };
   return (
@@ -63,6 +92,7 @@ const WorkingProject = (props) => {
             image={IMAGE_BASE_URL + image.name}
             onSelect={onSelect}
             onChange={onChange}
+            annotationData={labels}
             width={800}
             height={700}
           />
@@ -70,14 +100,19 @@ const WorkingProject = (props) => {
         <div class="col-sm-4">
           <h3>Etiketler</h3>
           <OrderedList style={{ margin: 30 }}>
-            {Labels.map((label) => (
+            {labels.map((label) => (
               <ListItem> - {label.comment}</ListItem>
             ))}
           </OrderedList>
         </div>
       </div>
       <div className="row">
-        <Button onClick={() => nextImage()}>Kaydet</Button>
+        <Button onClick={() => nextImage()} style={{ margin: 30 }}>
+          Gec
+        </Button>
+        <Button onClick={() => saveLabels()} style={{ margin: 30 }}>
+          Kaydet
+        </Button>
       </div>
     </div>
   );

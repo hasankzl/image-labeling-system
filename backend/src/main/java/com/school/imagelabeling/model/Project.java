@@ -36,4 +36,8 @@ public class Project {
 
     @Column
     private Date createdDate = new Date();
+
+
+    @OneToMany(mappedBy = "project")
+    private List<LabelType> labelTypeList;
 }

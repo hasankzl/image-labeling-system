@@ -28,11 +28,10 @@ private final UserService userService;
     public void saveAll(List<Label> labelList) {
         ApplicationUser user = userService.getLoginUser();
 
-        labelList.stream().map(label ->{
-            label.setUser(user);
-            return label;
-        });
 
+        for(Label label : labelList){
+            label.setUser(user);
+        }
         labelRepository.saveAll(labelList);
 
          

@@ -15,7 +15,17 @@ public class Label {
     private Long id;
 
     @Column
-    private String coordination;
+    private String height;
+    @Column
+    private String width;
+
+    @Column
+    private String x;
+    @Column
+    private String y;
+
+    @Column
+    private String comment;
 
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)

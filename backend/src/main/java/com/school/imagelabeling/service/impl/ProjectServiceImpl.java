@@ -3,10 +3,7 @@ package com.school.imagelabeling.service.impl;
 
 import com.school.imagelabeling.Projection.*;
 import com.school.imagelabeling.model.*;
-import com.school.imagelabeling.repository.ImageRepository;
-import com.school.imagelabeling.repository.ImageSetRepository;
-import com.school.imagelabeling.repository.ProjectRepository;
-import com.school.imagelabeling.repository.UserRepository;
+import com.school.imagelabeling.repository.*;
 import com.school.imagelabeling.service.ProjectService;
 import com.school.imagelabeling.service.UserService;
 import io.jsonwebtoken.impl.DefaultClaims;
@@ -24,7 +21,7 @@ public class ProjectServiceImpl implements ProjectService {
     private final UserService userService;
     private final ImageSetRepository imageSetRepository;
     private final ImageRepository imageRepository;
-
+    private final LabelTypeRepository labelTypeRepository;
     @Override
     public void save(Project project) {
 
@@ -44,7 +41,13 @@ public class ProjectServiceImpl implements ProjectService {
             counter++;
         }
         project.setAdmin(userService.getLoginUser());
-        projectRepository.save(project);
+        Project projectSaved = projectRepository.save(project);
+
+        for(LabelType labelType : project.getLabelTypeList()){
+            labelType.setProject(projectSaved);
+            labelTypeRepository.save(labelType);
+        }
+
     }
 
     @Override
