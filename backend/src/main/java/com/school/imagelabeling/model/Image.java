@@ -4,6 +4,7 @@ package com.school.imagelabeling.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -30,4 +31,6 @@ public class Image {
     @JoinColumn(name="user_id", nullable=true)
     private ApplicationUser user;
 
+    @OneToMany(mappedBy = "image",cascade = CascadeType.REMOVE)
+    private List<Label> labelList;
 }

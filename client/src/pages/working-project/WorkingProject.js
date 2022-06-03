@@ -21,6 +21,9 @@ import { Save24 } from "@carbon/icons-react";
 import { SkipForward24 } from "@carbon/icons-react";
 import { ContentSwitcher } from "carbon-components-react";
 import { Switch } from "carbon-components-react";
+import imageLabel1 from "../../images/imageLabel1.png";
+import imageLabel2 from "../../images/imageLabel2.png";
+
 const WorkingProject = (props) => {
   let { id } = useParams();
   const [labels, setLabels] = useState([]);
@@ -43,13 +46,13 @@ const WorkingProject = (props) => {
       Notification.warning({ message: "Lutfen bir etiket turu seciniz" });
       return;
     }
-    data[data.length - 1].comment = selectedLabel;
+    if (data.length > 0) data[data.length - 1].comment = selectedLabel;
     setLabels(data);
   };
 
   useEffect(async () => {
     await axios.get(FIND_PROJECT_URL + id).then((res) => {
-      setProject(res.data.project);
+      setProject(res.data);
       setImage(res.data.imageList[imageIndex]);
     });
   }, [id]);
@@ -103,15 +106,30 @@ const WorkingProject = (props) => {
               setTipsIndex(index);
             }}
           >
-            <Switch name="one" text="First section" />
-            <Switch name="two" text="Second section" />
+            <Switch name="one" text="Açıklama" />
+            <Switch name="two" text="Kısayollar" />
           </ContentSwitcher>
           {tipsIndex == 0 ? (
             <div>
-              <h3>Iyi Ornek</h3>
+              <div style={{ margin: 30 }}>
+                <h3>Iyi Ornekler</h3>
+                <p>Sadece araçların etrafını kare çızımı yapın.</p>
+                <p>Karenin kenarları aracın kenarlarına denk gelmelidir.</p>
+                <img src={imageLabel2} />
+              </div>
+              <div style={{ margin: 30 }}>
+                <h3>Kötü Ornekler</h3>
+                <p>Aşağıdaki seçimde çizilen kare bütün aracı kapsamıyor</p>
+                <img src={imageLabel1} />
+              </div>
             </div>
           ) : (
-            <Button>as</Button>
+            <div>
+              <OrderedList style={{ margin: 30 }}>
+                <ListItem> Diğer resime geçmek için crtl+p</ListItem>
+                <ListItem> resimi kaydetmek için crtl+s</ListItem>
+              </OrderedList>
+            </div>
           )}
         </div>
 
@@ -129,9 +147,10 @@ const WorkingProject = (props) => {
         <div class="col-sm-2">
           <h3>Etiketler Turleri</h3>
           <div style={{ margin: 10, display: "grid" }}>
-            {project.labelTypeList &&
-              project.labelTypeList.map((label) => (
+            {project.project &&
+              project.project.labelTypeList.map((label) => (
                 <Button
+                  kind="secondary"
                   onClick={() => setSelectedLabel(label.name)}
                   disabled={label.name == selectedLabel}
                 >

@@ -38,6 +38,6 @@ public class Project {
     private Date createdDate = new Date();
 
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project",cascade = CascadeType.REMOVE)
     private List<LabelType> labelTypeList;
 }

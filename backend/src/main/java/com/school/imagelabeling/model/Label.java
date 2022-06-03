@@ -31,7 +31,7 @@ public class Label {
     @JoinColumn(name="user_id", nullable=false)
     private ApplicationUser user;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name="image_id", nullable=false)
     private Image image;
 
