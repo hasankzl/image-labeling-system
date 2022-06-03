@@ -1,4 +1,4 @@
-import { Close24 } from "@carbon/icons-react";
+import { Close24, Add24 } from "@carbon/icons-react";
 import { getActiveElement } from "@testing-library/user-event/dist/utils";
 import { Form } from "carbon-components-react";
 import { TextInput } from "carbon-components-react";
@@ -16,6 +16,7 @@ const emptyProject = {
   admin: {},
   userList: [],
   imageSet: {},
+  labelTypeList: [],
 };
 
 const ProjectModal = ({
@@ -29,7 +30,7 @@ const ProjectModal = ({
   getAll,
 }) => {
   const [project, setProject] = useState(emptyProject);
-
+  const [labelTypeName, setLabelTypeName] = useState("");
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProject({ ...project, [name]: value });
@@ -47,6 +48,34 @@ const ProjectModal = ({
       setProject(oldProject);
     }
   };
+
+  const addLabelType = () => {
+    if (labelTypeName != "") {
+      // eger daha once eklenmis ise bir sey yapma
+      if (
+        project.labelTypeList.some(
+          (labelType) => labelType.name == labelTypeName
+        )
+      ) {
+        return;
+      }
+      const data = {
+        name: labelTypeName,
+      };
+      const oldProject = { ...project };
+      oldProject.labelTypeList.push(data);
+      setProject(oldProject);
+      setLabelTypeName("");
+    }
+  };
+
+  const removeFromLabelTypeList = (name) => {
+    const oldProject = { ...project };
+    oldProject.labelTypeList = oldProject.labelTypeList.filter(
+      (labelType) => labelType.name != name
+    );
+    setProject(oldProject);
+  };
   const handleImageSetSelect = (e) => {
     if (e.target.value) {
       const data = JSON.parse(e.target.value);
@@ -61,13 +90,16 @@ const ProjectModal = ({
     oldProject.userList = oldProject.userList.filter((user) => user.id != id);
     setProject(oldProject);
   };
+
   useEffect(() => {
     _getAllFriends();
     _getMyImageSets();
   }, []);
+
   useEffect(() => {
     setProject(emptyProject);
   }, [isOpen]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     _saveProject(project).then((res) => {
@@ -148,6 +180,40 @@ const ProjectModal = ({
             ))}
           </UnorderedList>
         </UnorderedList>
+
+        <div style={{ marginBottom: "1rem", display: "flex" }}>
+          <TextInput
+            labelText="Etiket turu ekle"
+            placeholder="Etiket adi"
+            value={labelTypeName}
+            name="name"
+            onChange={(e) => setLabelTypeName(e.target.value)}
+          />
+          <Button label="Add" onClick={addLabelType}>
+            <Add24 />
+          </Button>
+        </div>
+
+        <UnorderedList style={{ margin: 30 }}>
+          <ListItem>Projedeki Etiketler</ListItem>
+          <UnorderedList nested>
+            {project.labelTypeList.map((labelType) => (
+              <ListItem
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <span> {`${labelType.name}  `}</span>{" "}
+                <Close24
+                  onClick={() => removeFromLabelTypeList(labelType.name)}
+                />
+              </ListItem>
+            ))}
+          </UnorderedList>
+        </UnorderedList>
+
         <Button kind="primary" tabIndex={0} type="submit">
           Kaydet
         </Button>

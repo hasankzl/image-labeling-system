@@ -13,14 +13,20 @@ import Logout from "../pages/login/Logout";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 const headerStyle = {
-  width: 100,
+  width: "100%",
   color: "white",
+  whiteSpace: "pre-wrap",
+  marginRight: 29,
 };
 export const AppBar = ({ isLogin }) => {
   const { t } = useTranslation();
   return (
     <Header>
-      <HeaderName href="#">Online Resim Etiketleme</HeaderName>
+      <Link to={"/"}>
+        <HeaderGlobalAction aria-label="Notifications" style={headerStyle}>
+          Online Resim Etiketleme
+        </HeaderGlobalAction>
+      </Link>
       <HeaderGlobalBar>
         {isLogin ? (
           <>

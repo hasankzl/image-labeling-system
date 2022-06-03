@@ -78,6 +78,26 @@ const Project = ({
       },
     },
     {
+      header: "Etiket Turleri",
+      td: (data) => {
+        return (
+          <UnorderedList nested>
+            {data.labelTypeList.map((labelType) => (
+              <ListItem
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <span> {`${labelType.name} `}</span>{" "}
+              </ListItem>
+            ))}
+          </UnorderedList>
+        );
+      },
+    },
+    {
       header: "Islemler",
       td: (data) => {
         return (

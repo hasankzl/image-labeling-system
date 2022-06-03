@@ -10,6 +10,7 @@ import "carbon-components/css/carbon-components.css";
 import "react-notifications/lib/notifications.css";
 
 import "./index.css";
+import "./styles.css";
 
 ReactDOM.render(
   <Provider store={store}>
