@@ -74,15 +74,25 @@ export const getMyImageSets = () => async (dispatch) => {
   });
 };
 
-export const downloadJson = async (id) => {
+export const downloadJson = async (id, jsonOrXml) => {
   await axios.get(DOWNLOAD_JSON_URL + id).then((res) => {
     var element = document.createElement("a");
+
+    let text;
+    let fileName;
+    if (jsonOrXml) {
+      text = JSON.stringify(res.data);
+      fileName = "json_veri.json";
+    } else {
+      text = OBJtoXML(res.data);
+      debugger;
+      fileName = "xml_cikti.xml";
+    }
     element.setAttribute(
       "href",
-      "data:text/plain;charset=utf-8," +
-        encodeURIComponent(JSON.stringify(res.data))
+      "data:text/plain;charset=utf-8," + encodeURIComponent(text)
     );
-    element.setAttribute("download", "json_veri.json");
+    element.setAttribute("download", fileName);
 
     element.style.display = "none";
     document.body.appendChild(element);
@@ -92,3 +102,23 @@ export const downloadJson = async (id) => {
     document.body.removeChild(element);
   });
 };
+function OBJtoXML(obj) {
+  var xml = "";
+  for (var prop in obj) {
+    xml += obj[prop] instanceof Array ? "" : "<" + prop + ">";
+    if (obj[prop] instanceof Array) {
+      for (var array in obj[prop]) {
+        xml += "<" + prop + ">";
+        xml += OBJtoXML(new Object(obj[prop][array]));
+        xml += "</" + prop + ">";
+      }
+    } else if (typeof obj[prop] == "object") {
+      xml += OBJtoXML(new Object(obj[prop]));
+    } else {
+      xml += obj[prop];
+    }
+    xml += obj[prop] instanceof Array ? "" : "</" + prop + ">";
+  }
+  var xml = xml.replace(/<\/?[0-9]{1,}>/g, "");
+  return xml;
+}

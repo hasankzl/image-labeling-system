@@ -10,6 +10,7 @@ import { UnorderedList } from "carbon-components-react";
 import { ListItem } from "carbon-components-react";
 import { useNavigate } from "react-router-dom";
 import { Json24 } from "@carbon/icons-react";
+import { Xml24 } from "@carbon/icons-react";
 const options = {
   weekday: "long",
   year: "numeric",
@@ -120,10 +121,17 @@ const Project = ({
             </Button>{" "}
             <Button
               hasIconOnly
-              onClick={() => downloadJson(data.id)}
+              onClick={() => downloadJson(data.id, true)}
               iconDescription="Json Cikti"
             >
               <Json24 />
+            </Button>
+            <Button
+              hasIconOnly
+              onClick={() => downloadJson(data.id, false)}
+              iconDescription="xml Çıktı"
+            >
+              <Xml24 />
             </Button>
             <Button
               hasIconOnly
