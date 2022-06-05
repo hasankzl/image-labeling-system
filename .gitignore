@@ -102,5 +102,4 @@ mvnw.cmd
 
 mvnw
 ### image upload folder ###
-client/src/images
 backend/incoming-files
