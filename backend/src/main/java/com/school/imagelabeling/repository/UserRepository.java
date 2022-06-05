@@ -2,6 +2,7 @@ package com.school.imagelabeling.repository;
 
 import com.school.imagelabeling.Projection.ImageSetProjectionWithImage;
 import com.school.imagelabeling.Projection.SimpleUserProjection;
+import com.school.imagelabeling.Projection.UserWithProjectProjection;
 import com.school.imagelabeling.model.ApplicationUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -14,4 +15,5 @@ public interface UserRepository extends JpaRepository<ApplicationUser,Long> {
     List<SimpleUserProjection> findAllProjectedBy();
     SimpleUserProjection findAllProjectedByUsername(String username);
 
+    UserWithProjectProjection findProjectedById(Long id);
 }

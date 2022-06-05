@@ -23,7 +23,7 @@ public class ProjectServiceImpl implements ProjectService {
     private final ImageSetRepository imageSetRepository;
     private final ImageRepository imageRepository;
     private final LabelTypeRepository labelTypeRepository;
-
+    private final UserRepository userRepository;
     @Override
     public void save(Project project) {
 
@@ -57,7 +57,8 @@ public class ProjectServiceImpl implements ProjectService {
 
         ApplicationUser applicationUser = new ApplicationUser();
         applicationUser.setId(userService.getLoginUser().getId());
-        return projectRepository.findAllProjectedByAdmin(applicationUser);
+        UserWithProjectProjection userWithProjectProjection= userRepository.findProjectedById(userService.getLoginUser().getId());
+        return userWithProjectProjection.getProjectList();
     }
 
     @Override

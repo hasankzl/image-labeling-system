@@ -33,5 +33,10 @@ export default {
     project: {
       name: "Projelerim",
     },
+    login: {
+      loginSuccessful: "Başarıyla giriş yapıldı",
+      loginDenied: "Giriş yapılamadı ",
+      logoutSuccessful: "Başarıyla çıkış yapıldı",
+    },
   },
 };

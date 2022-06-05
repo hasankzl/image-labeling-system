@@ -33,5 +33,10 @@ export default {
     project: {
       name: "My Projects",
     },
+    login: {
+      loginSuccessful: "Login Successful",
+      loginDenied: "Login Denied ",
+      logoutSuccessful: "Logout Successful",
+    },
   },
 };
