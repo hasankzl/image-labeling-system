@@ -95,6 +95,7 @@ public class ProjectServiceImpl implements ProjectService {
                 exportLabelJson.setX(label.getX());
                 exportLabelJson.setY(label.getY());
                 exportLabelJson.setDateCaptured(label.getCreatedDate());
+                exportLabelJson.setType(label.getComment());
                 exportLabelJsonList.add(exportLabelJson);
             }
         }

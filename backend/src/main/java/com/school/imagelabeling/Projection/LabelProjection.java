@@ -13,6 +13,8 @@ public interface LabelProjection {
 
     String getY();
 
+    String getComment();
+
     ImageProjection getImage();
 
     Date getCreatedDate();

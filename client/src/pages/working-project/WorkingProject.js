@@ -97,8 +97,6 @@ const WorkingProject = (props) => {
     <div style={{ margin: 75, marginTop: 100 }}>
       <div class="row" style={{ height: "75vh" }}>
         <div class="col-sm-3">
-          <h3>Ip Uclari</h3>
-
           <ContentSwitcher
             selectedIndex={tipsIndex}
             onChange={(obj) => {
@@ -150,7 +148,7 @@ const WorkingProject = (props) => {
             {project.project &&
               project.project.labelTypeList.map((label) => (
                 <Button
-                  kind="secondary"
+                  kind="ghost"
                   onClick={() => setSelectedLabel(label.name)}
                   disabled={label.name == selectedLabel}
                 >
@@ -168,14 +166,14 @@ const WorkingProject = (props) => {
           </OrderedList>
         </div>
       </div>
-      <div className="row" style={{ marginLeft: "80%" }}>
-        <Button onClick={() => nextImage()} style={{ margin: 30 }}>
+      <div className="row" style={{ marginLeft: "70%" }}>
+        <Button onClick={() => nextImage()} style={{ margin: 30, width: 150 }}>
           <SkipForward24 />
-          <p style={{ marginLeft: 10 }}>Gec</p>
+          <p style={{ marginTop: 10 }}>Gec</p>
         </Button>
-        <Button onClick={() => saveLabels()} style={{ margin: 30 }}>
+        <Button onClick={() => saveLabels()} style={{ margin: 30, width: 150 }}>
           <Save24 />
-          <p style={{ marginLeft: 10 }}>Kaydet</p>
+          <p style={{ marginTop: 10 }}>Kaydet</p>
         </Button>
       </div>
     </div>

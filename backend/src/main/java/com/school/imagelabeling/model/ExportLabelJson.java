@@ -12,5 +12,7 @@ public class ExportLabelJson {
     private String x;
     private String y;
     private String fileName;
+
+    private String type;
     private Date dateCaptured;
 }
