@@ -1,6 +1,7 @@
 package com.school.imagelabeling.model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -28,6 +29,7 @@ public class ImageSet {
 
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "project_id", referencedColumnName = "id")
+    @JsonManagedReference
     private Project project;
 
     @Column

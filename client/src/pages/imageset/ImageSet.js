@@ -48,7 +48,9 @@ const ImageSet = ({
     },
     {
       header: "Created Date",
-      td: (data) => <span>{data.createdDate}</span>,
+      td: (data) => (
+        <span>{new Date(data.createdDate).toLocaleDateString("TR")}</span>
+      ),
     },
     {
       header: "Islemler",
@@ -89,6 +91,14 @@ const ImageSet = ({
           sortable
           globalSearch
           filterable
+          previousText="Önceki"
+          nextText="Sonraki"
+          rowsText="Satırlar"
+          pageText="Sayfa"
+          ofText="içinden"
+          totalDataText="toplam Veri"
+          filteredDataText="Filtrelenmiş veri"
+          downloadExcelText="excel indir"
         />
       </div>
       <ImageSetModal

@@ -55,8 +55,6 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<ProjectProjection> findAll() {
 
-        ApplicationUser applicationUser = new ApplicationUser();
-        applicationUser.setId(userService.getLoginUser().getId());
         UserWithProjectProjection userWithProjectProjection= userRepository.findProjectedById(userService.getLoginUser().getId());
         return userWithProjectProjection.getProjectList();
     }

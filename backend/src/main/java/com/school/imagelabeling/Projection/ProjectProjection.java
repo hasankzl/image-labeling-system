@@ -11,4 +11,6 @@ public interface ProjectProjection {
     List<SimpleUserProjection> getUserList();
     Date getCreatedDate();
     List<LabelTypeProjection> getLabelTypeList();
+
+    ProjectImageSetProjection getImageSet();
 }

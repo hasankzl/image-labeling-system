@@ -11,6 +11,7 @@ import { ListItem } from "carbon-components-react";
 import { useNavigate } from "react-router-dom";
 import { Json24 } from "@carbon/icons-react";
 import { Xml24 } from "@carbon/icons-react";
+import { IMAGE_BASE_URL } from "../../utils/constants";
 const options = {
   weekday: "long",
   year: "numeric",
@@ -39,6 +40,18 @@ const Project = ({
     _getAllProjects();
   }, []);
   const columns = [
+    {
+      header: "Temsili Resim",
+      td: (data) => (
+        <div>
+          <img
+            src={IMAGE_BASE_URL + data.imageSet.imageList[0].name}
+            width={200}
+            height={200}
+          />
+        </div>
+      ),
+    },
     {
       header: "Id",
       key: "id",
@@ -158,6 +171,14 @@ const Project = ({
           sortable
           globalSearch
           filterable
+          previousText="Önceki"
+          nextText="Sonraki"
+          rowsText="Satırlar"
+          pageText="Sayfa"
+          ofText="içinden"
+          totalDataText="toplam Veri"
+          filteredDataText="Filtrelenmiş veri"
+          downloadExcelText="excel indir"
         />
       </div>
       <ProjectModal
